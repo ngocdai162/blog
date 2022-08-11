@@ -39,10 +39,13 @@ const FooterStyled = styled.div`
     }
 `;
 const Footer = () => {
-    const [editFlag,setEditFlag] = useState(true)
+    const [editFlag,setEditFlag] = useState(true);
+    const handleClickSave = () => {
+        setEditFlag(false)
+    }
     return (
         <FooterStyled>
-            {editFlag ? <Button type="primary">Save</Button> : <PlusCircleOutlined />}
+            {editFlag ? <Button type="primary" onClick={handleClickSave}>Save</Button> : <PlusCircleOutlined />}
         </FooterStyled>
     )
 }

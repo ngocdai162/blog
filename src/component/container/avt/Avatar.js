@@ -12,9 +12,12 @@ const AvatarStyled = styled.div`
 
 `;
 const Avatar = (props) =>  {
+    const handleClick = (e)=> {
+       e.target.style.opacity = "50%"
+    }
     return (
         <AvatarStyled >
-            <img src={props.src}/>
+            <img src={props.src} onClick={handleClick} />
         </AvatarStyled>
     )
 } 
