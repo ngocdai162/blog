@@ -1,4 +1,11 @@
+body {
+  box-sizing: border-box;
+}
+
 .App {
+  width: 30%;
+  padding: 20px;
+  background-color: #d9981e ;
   text-align: center;
 }
 
