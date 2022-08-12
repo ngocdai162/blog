@@ -23,7 +23,6 @@ function App() {
       <BlogStyled>
         <Header/>
         <UserEdit/>
-        <Footer/>
       </BlogStyled>
     </div>
   );

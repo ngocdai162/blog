@@ -16,8 +16,8 @@ const Avatar = (props) =>  {
        e.target.style.opacity = "50%"
     }
     return (
-        <AvatarStyled >
-            <img src={props.src} onClick={handleClick} />
+        <AvatarStyled onClick={props.handleAvatarClick}>
+            <img src={props.src}/>
         </AvatarStyled>
     )
 } 

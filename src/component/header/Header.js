@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux/es/exports";
 
 const HeaderStyled = styled.div`
     display: flex ;
     width: 100%;
+    height: 25%;
     padding-bottom: 20px;
     flex-direction:  column ;
     align-items:center ;
@@ -48,15 +50,17 @@ const Info = styled.div`
     }
 `;
 const Header = () => {
+    const userInfo = useSelector(state => state.user);
+    console.log(userInfo);
     return (
         <HeaderStyled>
             <p>Edit</p>
             <Avatar>
-                <img src="../../avt/avt-1.jpg"/>
+                <img src={userInfo.url}/>
             </Avatar>
             <Info>
-                <span>Coca</span>
-                <span>Like drinking coca</span>
+                <span>{userInfo.name}</span>
+                <span>{userInfo.description}</span>
             </Info>
         </HeaderStyled>
     )
