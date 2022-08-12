@@ -1,10 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
+import {Routes, Route} from 'react-router-dom';
 import Header from './component/header/Header';
-import Footer from './component/footer/Footer';
-import ListPost from './component/container/ListPost';
 import styled from 'styled-components';
-import UserEdit from './component/container/UserEdit';
+import ListPost from './component/container/listPost/ListPost';
+import UserEdit from './component/container/userEdit/UserEdit';
+import PostAdd from './component/container/postAdd/PostAdd';
+
+
 
 const BlogStyled = styled.div`
  width: 30%;
@@ -22,7 +25,11 @@ function App() {
     <div className="App">
       <BlogStyled>
         <Header/>
-        <UserEdit/>
+        <Routes>
+          <Route path="/userEdit" element = {<UserEdit/>}/>
+          <Route path="/listPost" element = {<ListPost/>}/>
+          <Route path="/postAdd" element = {<PostAdd/>}/>
+        </Routes>
       </BlogStyled>
     </div>
   );

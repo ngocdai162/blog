@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
+import {Routes, Route,Link} from 'react-router-dom';
 import styled from "styled-components";
 import { Input } from "antd";
-import Avatar from "../avt/Avatar";
+import Avatar from "../.././avt/Avatar";
 import { useDispatch } from "react-redux";
-import { editInfo } from "../../redux/slice/userSlice";
+import { editInfo } from "../../../redux/slice/userSlice";
 import Button from "antd/lib/button";
 
 const avatarData = [
@@ -27,12 +28,12 @@ const UserInfoStyled = styled.div`
 const UserInfoButtonStyled = styled.div`
     width: 100%;
     display: flex ;
-    justify-content: center;
+    justify-content: flex-end;
     position: absolute ;
     bottom: 20px;
     button {
         background-color: #a97e25 ;
-        padding: 10px 30px;
+        padding: 10px 20px;
         font-size: 16px ;
         border: none;
         border-radius: 5px;
@@ -40,7 +41,10 @@ const UserInfoButtonStyled = styled.div`
         background-color: #936c1a ;
           cursor: pointer;
         }
-     }
+    }
+    & button:first-child {
+        margin-right: 10px;
+    }
 `;
 const UserDetail = styled.div`
      display: flex ;
@@ -141,7 +145,12 @@ const UserEdit = () => {
                 </ul>
             </AvtChoice>
             <UserInfoButtonStyled>
-              <button  onClick={handleClickSave}>Save</button>
+              <Link to = '/listPost'>
+                 <button  onClick={handleClickSave}>Save</button>
+              </Link>
+              <Link to = '/listPost'>
+                 <button>Cancel</button>
+              </Link>
             </UserInfoButtonStyled>
           
         </UserInfoStyled>
