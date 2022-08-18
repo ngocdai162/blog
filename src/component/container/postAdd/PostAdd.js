@@ -4,8 +4,10 @@ import { useState } from "react";
 import { Input } from 'antd';
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom'; 
 import { addPost } from "../../../redux/slice/postsSlice";
 import { hideEditButton } from "../../../redux/slice/editFlagSlice";
+import { v4 as uuidv4 } from 'uuid';
 const PostAddStyled = styled.div` 
     height: 70%;
     width: 100%;
@@ -52,6 +54,7 @@ const PostAddStyled = styled.div`
     
 `
 const PostAdd = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { TextArea } = Input;
     const [titleValue,setTitleValue] = useState()
@@ -63,10 +66,14 @@ const PostAdd = () => {
         setContentValue(e.target.value)
     }
     const handleAdd = () => {
+      if(titleValue !='' && contentValue !='') {
         dispatch(addPost({
-            title: titleValue,
-            content: contentValue
-        }))
+          id: uuidv4(),
+          title: titleValue,
+          content: contentValue
+      }))
+      navigate('/listPost');
+      }
     }
     return (
         <PostAddStyled>
@@ -75,9 +82,7 @@ const PostAdd = () => {
             <p>Content</p> 
             <TextArea rows={8} value = {contentValue} onChange = {handleChangeContent}/>
             <div>
-              <Link to ='/listPost'>
-                <button onClick={handleAdd}>Add</button>
-              </Link>
+              <button onClick={handleAdd}>Add</button>
               <Link to = '/listPost'>
                  <button>Cancel</button>
               </Link>

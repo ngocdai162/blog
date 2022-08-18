@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { CloseOutlined } from "@ant-design/icons";
 import { deletePost } from "../../../redux/slice/postsSlice";
+import { v4 as uuidv4 } from 'uuid';
 const PostStyled = styled.div`
     position: relative ;
     border: 1px solid #888;
@@ -36,14 +37,16 @@ const PostStyled = styled.div`
 `
 const Post = (props) => {
     const dispatch = useDispatch()
-    const handleClick = () => {
-        dispatch(deletePost(props.id))
+    const handleClick = (e) => {
+       console.log(e.target.parentElement.id +  '  xoa');
+        dispatch(deletePost(e.target.parentElement.id));
     }
+
     return (
         <PostStyled>
             <div>
               <p>{props.title}</p>
-              <CloseOutlined  /> 
+              <CloseOutlined id={props.id} onClick = {handleClick}/> 
             </div>
             <span>{props.content}</span>
         </PostStyled>

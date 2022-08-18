@@ -37,13 +37,12 @@ const AddPostButtonStyled = styled.div`
 `
 
 const ListPost = () => {
-    const postsData = useSelector(state => state.posts.posts)
-   
+    const postsData = useSelector(state => state.posts.posts);
     return (
         <ListPostStyled>
           <PostsStyled >
             {postsData.map(post => (
-                <Post title = {post.title} content = {post.content} id = {uuidv4()}/>
+                <Post title = {post.title} content = {post.content} id = {post.id}/>
             ))}
           </PostsStyled>
            <AddPostButtonStyled>

@@ -1,8 +1,8 @@
 import React from "react";
-import {Routes, Route,Link} from 'react-router-dom';
+import {Routes, Route,Link, useNavigate} from 'react-router-dom';
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux/es/exports";
-import { hideEditButton } from "../../redux/slice/editFlagSlice";
+import { setEditButton ,hideEditButton} from "../../redux/slice/editFlagSlice";
 
 const HeaderStyled = styled.div`
     display: flex ;
@@ -13,7 +13,7 @@ const HeaderStyled = styled.div`
     align-items:center ;
     border-bottom: 1px solid #fff;
     
-    & a:first-child {
+    & span:first-child {
         text-align: end ;
         text-decoration: none;
         width: 100%;
@@ -25,6 +25,9 @@ const HeaderStyled = styled.div`
             color: #fff;
             cursor: pointer;
         }
+    }
+    p {
+        margin: 0px;
     }
 `;
 const Avatar = styled.div`
@@ -54,16 +57,26 @@ const Info = styled.div`
     }
 `;
 const Header = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const userInfo = useSelector(state => state.user);
     const editFlag = useSelector(state => state.editFlag);
+    const postsData = useSelector(state => state.posts.posts);
+    const handleClickEdit = () => {
+        // dispatch(setEditButton(false));
+        // dispatch(hideEditButton());
+        navigate('/userEdit');
+
+    }
+
     return (
         <HeaderStyled>
-            {editFlag && <Link to = '/userEdit'>Edit</Link>}
+            {editFlag &&  <span onClick={handleClickEdit}>Edit</span>}
             <Avatar>
                 <img src={userInfo.url}/>
             </Avatar>
             <Info>
-                <span>{userInfo.name}</span>
+                <p>{userInfo.name}</p>
                 <span>{userInfo.description}</span>
             </Info>
         </HeaderStyled>

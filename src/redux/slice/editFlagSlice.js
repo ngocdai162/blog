@@ -3,11 +3,15 @@ const editFlagSlice = createSlice({
     name: 'editFlag',
     initialState: true,
     reducers: {
-        hideEditButton(state,action) {
-            console.log(action.payload)
+        setEditButton:(state,action) => {
+            console.log(action.payload  +  "day")
             state = action.payload;
+        },
+        hideEditButton: (state,action) => {
+            state = false;
         }
+        
     }
 })
-export const {hideEditButton} =  editFlagSlice.actions;
+export const {setEditButton, hideEditButton} =  editFlagSlice.actions;
 export default editFlagSlice.reducer;

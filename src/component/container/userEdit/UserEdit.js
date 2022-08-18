@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import {Routes, Route,Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; 
 import styled from "styled-components";
 import { Input } from "antd";
 import Avatar from "../.././avt/Avatar";
 import { useDispatch } from "react-redux";
 import { editInfo } from "../../../redux/slice/userSlice";
-import Button from "antd/lib/button";
+import { setEditButton } from "../../../redux/slice/editFlagSlice";
+
 
 const avatarData = [
     "https://gamek.mediacdn.vn/133514250583805952/2020/9/11/photo-1-1599790042857305841826.jpg",
@@ -101,6 +103,7 @@ const UserEdit = () => {
     //      e.target.classList.add('avt-active');
     // }
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const avtArray = useRef();
     const [nameValue,setNameValue] = useState();
     const [descriptionValue,setDescriptionValue] = useState();
@@ -112,18 +115,28 @@ const UserEdit = () => {
         setDescriptionValue(e.target.value);
         console.log(e.target.value)
     }
+    const handleAvtClick = (e) => {
+        setUrlAvatar(e.target.src);
+        console.log(e.target.src)
+     }
     const userInfo = {
         name: nameValue,
         description: descriptionValue,
         url: urlAvatar
     }
     const handleClickSave = () => {
-        dispatch(editInfo(userInfo))
+        if((nameValue !='') && (descriptionValue !='') && (urlAvatar !='')) {
+            dispatch(editInfo(userInfo));
+            // dispatch(setEditButton(true))
+            navigate('/listPost');
+            console.log("Ok");
+        }
     }
-    const handleAvtClick = (e) => {
-       console.log(e.target)
-       setUrlAvatar(e.target.src);
+    const handleClickCancel = () => {
+        // dispatch(setEditButton(true))
+        navigate('/listPost');
     }
+  
     return (
         <UserInfoStyled>
             <UserDetail>
@@ -145,12 +158,8 @@ const UserEdit = () => {
                 </ul>
             </AvtChoice>
             <UserInfoButtonStyled>
-              <Link to = '/listPost'>
-                 <button  onClick={handleClickSave}>Save</button>
-              </Link>
-              <Link to = '/listPost'>
-                 <button>Cancel</button>
-              </Link>
+              <button  onClick={handleClickSave}>Save</button>
+              <button onClick={handleClickCancel}>Cancel</button>
             </UserInfoButtonStyled>
           
         </UserInfoStyled>
