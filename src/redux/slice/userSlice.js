@@ -9,8 +9,6 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         editInfo(state,action) {
-            console.log("url : " )
-            console.log(action.payload.url)
             state.name = action.payload.name;
             state.description = action.payload.description;
             state.url = action.payload.url;

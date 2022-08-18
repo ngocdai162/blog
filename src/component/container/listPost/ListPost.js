@@ -12,6 +12,10 @@ const ListPostStyled = styled.div`
        display: flex;
        flex-direction: column ;
        justify-content: space-between;
+       h3 {
+         color: #584316;
+         margin: 0px;
+       }
     `;
 const PostsStyled = styled.div`
     height: 80%;
@@ -40,6 +44,7 @@ const ListPost = () => {
     const postsData = useSelector(state => state.posts.posts);
     return (
         <ListPostStyled>
+          <h3>List post</h3>
           <PostsStyled >
             {postsData.map(post => (
                 <Post title = {post.title} content = {post.content} id = {post.id}/>

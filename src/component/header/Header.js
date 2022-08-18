@@ -3,7 +3,8 @@ import {Routes, Route,Link, useNavigate} from 'react-router-dom';
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { setEditButton ,hideEditButton} from "../../redux/slice/editFlagSlice";
-
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar } from "antd";
 const HeaderStyled = styled.div`
     display: flex ;
     width: 100%;
@@ -30,7 +31,7 @@ const HeaderStyled = styled.div`
         margin: 0px;
     }
 `;
-const Avatar = styled.div`
+const AvatarUser = styled.div`
     width: 50px;
     height: 50px;
     margin-top: 5px;
@@ -39,6 +40,15 @@ const Avatar = styled.div`
     img {
         width: 100%;
         height: 100%;
+    }
+    span {
+        width: 100%;
+        height: 100%;
+        svg {
+            width: 100% !important;
+            height: 100% !important;
+            color: #fff;
+        }
     }
 `;
 const Info = styled.div`
@@ -54,6 +64,10 @@ const Info = styled.div`
     & span:first-child {
         font-size: 16px;
         font-weight: 400;
+    }
+    h4 {
+        margin: 0px;
+       color: #584316;
     }
 `;
 const Header = () => {
@@ -72,11 +86,14 @@ const Header = () => {
     return (
         <HeaderStyled>
             {editFlag &&  <span onClick={handleClickEdit}>Edit</span>}
-            <Avatar>
-                <img src={userInfo.url}/>
-            </Avatar>
+            <AvatarUser>
+                {(userInfo.url!=null && userInfo.url !='') ? <img src={userInfo.url}/>
+                : <Avatar size={64} icon={<UserOutlined />} />}
+               
+                
+            </AvatarUser>
             <Info>
-                <p>{userInfo.name}</p>
+                <h4>{userInfo.name}</h4>
                 <span>{userInfo.description}</span>
             </Info>
         </HeaderStyled>

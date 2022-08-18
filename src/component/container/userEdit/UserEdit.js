@@ -4,28 +4,66 @@ import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { Input } from "antd";
 import Avatar from "../.././avt/Avatar";
-import { useDispatch } from "react-redux";
+import { Button, Form } from 'antd';
+import { useDispatch, useSelector } from "react-redux";
 import { editInfo } from "../../../redux/slice/userSlice";
 import { setEditButton } from "../../../redux/slice/editFlagSlice";
+import UploadImage from "./UploadImage";
 
 
-const avatarData = [
-    "https://gamek.mediacdn.vn/133514250583805952/2020/9/11/photo-1-1599790042857305841826.jpg",
-    "https://store-images.s-microsoft.com/image/apps.28411.13510798887593857.411c7070-8254-4bc7-9822-93212e9b3eaa.d5650289-0ad1-4560-ac30-38a18a1847bb",
-    'https://lolstatic-a.akamaihd.net/frontpage/apps/prod/rg-champion-reveal-pyke-bloodharbor-ripper/en_US/4cc51c48fc4e185fb5409def2b3649a84b0d4339/assets/downloads/wallpapers/PYKE_WALLPAPER_LOGO_1920X1200.jpg',
-    "https://images.contentstack.io/v3/assets/blt187521ff0727be24/blt3dafcae87ee7c45a/60ee0e8fa9af29474648beef/Katarina_0.jpg",
-    "https://lienminh.garena.vn/lo-dien-kaisa/downloads/wallpapers/kaisa-1280x1024.jpg", 
-    "https://lienminh.mobi/wp-content/uploads/2020/10/camile-toc-chien.jpg",
-    "https://cdn.tgdd.vn/2020/09/content/galaxy-slayer-zed-splash-art-lol-uhdpaper.com-4K-64-800x450.jpg",
-    "https://image.thanhnien.vn/w1024/Uploaded/2022/xdrkxrvekx/2021_12_20/ahri-42-1024.jpg",
-    "https://lolwildriftbuild.com/wp-content/uploads/2020/10/Graves_portrait.jpg"
-   
-
-]
 const UserInfoStyled = styled.div`
    width: 100%;
    height: 75%;
    position: relative;
+   h3 {
+    color: #584316;
+   }
+   .upload-error {
+     font-size: 12px;
+     color: #b91010;
+   }
+   .ant-form {
+      height: 80%;
+      label {
+        font-size: 14px ;
+        color: #584316;
+      }
+      input{
+        margin-top: 10px;
+        width: 100%;
+        outline: none ;
+        border: none;
+        border-radius: 10px;
+        padding: 5px;
+        font-size: 14px ;
+        color: #584316;
+      }
+      & input:first-child {
+        margin-bottom: 10px;
+      }
+      .ant-form-item-explain-error {
+        font-size: 12px;
+        color: #b91010;
+      }
+      
+      button {
+        background-color: #a97e25 ;
+        padding: 10px 20px;
+        font-size: 16px ;
+        border: none;
+        border-radius: 5px;
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+          &:hover {
+            background-color: #936c1a ;
+            cursor: pointer;
+        }
+      }
+      & button:last-child {
+        right: 90px;
+      }
+    }
 `;
 const UserInfoButtonStyled = styled.div`
     width: 100%;
@@ -69,7 +107,7 @@ const UserDetail = styled.div`
      }
 `;
 const AvtChoice = styled.div`
-    padding-top: 20px;
+   
     p {
         margin: 0px 0px 20px 0px;
         font-size: 14px ;
@@ -90,79 +128,110 @@ const AvtChoice = styled.div`
     }
 `;
 const UserEdit = () => {
-    // const handleAvatarClick = (e) => {
-    //   const imgAvts = avtArray.current.querySelectorAll("li div img");
-    //   if(imgAvts) {
-    //     imgAvts.forEach(imgAvt => {
-    //         if(imgAvt.classList.contains("avt-active")){
-    //             imgAvt.classList.remove("avt-active")
-    //         }
-    //         imgAvt.addEventListener("click", handleAvatarClick);
-    //     });
-    //   }
-    //      e.target.classList.add('avt-active');
-    // }
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const userInfo = useSelector(state => state.user);
     const avtArray = useRef();
     const [nameValue,setNameValue] = useState();
     const [descriptionValue,setDescriptionValue] = useState();
-    const [urlAvatar,setUrlAvatar] = useState();
+    const [urlAvatar,setUrlAvatar] = useState(userInfo.url);
+    // useEffect(()=> {
+    //     setUrlAvatar(userInfo.url)
+    // },[])
+    console.log('url')
+    console.log(urlAvatar)
+    console.log(userInfo.url)
+    const userInfoUpdate = {
+        name: nameValue,
+        description: descriptionValue,
+        url: urlAvatar,
+    }
     const handleNameChange = (e) => {
         setNameValue(e.target.value);
     }
     const handleDescriptionChange = (e) => {
         setDescriptionValue(e.target.value);
-        console.log(e.target.value)
     }
-    const handleAvtClick = (e) => {
-        setUrlAvatar(e.target.src);
-        console.log(e.target.src)
-     }
-    const userInfo = {
-        name: nameValue,
-        description: descriptionValue,
-        url: urlAvatar
+    const getAvatar = (data) => {
+        setUrlAvatar(data)
+        // return data;
     }
-    const handleClickSave = () => {
-        if((nameValue !='') && (descriptionValue !='') && (urlAvatar !='')) {
-            dispatch(editInfo(userInfo));
-            // dispatch(setEditButton(true))
+    const onFinish = (values) => {
+            console.log(userInfoUpdate)
+            dispatch(editInfo(userInfoUpdate));
             navigate('/listPost');
-            console.log("Ok");
-        }
-    }
-    const handleClickCancel = () => {
-        // dispatch(setEditButton(true))
+      };
+    
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
+    const handleCancelClick = () => {
         navigate('/listPost');
     }
-  
+
     return (
         <UserInfoStyled>
-            <UserDetail>
-                <p>Name</p>
-                <Input placeholder="User name"  onChange={handleNameChange} value={nameValue}/>
-            </UserDetail>
-            <UserDetail>
-                <p>Description</p>
-                <Input placeholder="Description" value={descriptionValue} onChange = {handleDescriptionChange}/>
-            </UserDetail>
-            <AvtChoice>
-                <p>Avatar</p>
-                <ul ref={avtArray}>
-                    {avatarData.map((avatar) => (
-                        <li onClick = {handleAvtClick}>
-                            <Avatar src={avatar} />
-                        </li>
-                    ))}
-                </ul>
-            </AvtChoice>
-            <UserInfoButtonStyled>
-              <button  onClick={handleClickSave}>Save</button>
-              <button onClick={handleClickCancel}>Cancel</button>
-            </UserInfoButtonStyled>
+            <h3>Edit info</h3>
+            {/* <UploadImage width = '100'/> */}
+            <UploadImage width = '100' event = {getAvatar}/>
+            <Form
+             name="basic"
+             labelCol={{
+              span: 8,
+             }}
+             wrapperCol={{
+              span: 16,
+             }}
+             initialValues={{
+                remember: true,
+             }}
+             onFinish={onFinish}
+             onFinishFailed={onFinishFailed}
+             autoComplete="off"
+            >
+            <Form.Item
+             label="Name"
+             name="name"
+             rules={[
+              {
+               required: true,
+               message: 'Please input name!',
+              },
+             ]}
+            >
+              <Input value={nameValue} onChange = {handleNameChange}/>
+            </Form.Item>
+
+            <Form.Item
+             label="Description"
+             name="description"
+             rules={[
+              {
+                required: true,
+                message: 'Please input description!',
+              },
+             ]}
+            >
+               <Input value={descriptionValue}  onChange = {handleDescriptionChange}/>
+            </Form.Item>
+            <Form.Item
+              wrapperCol={{
+              offset: 8,
+              span: 16,
+              }}
+            >
+             <div className = 'form-button'>
+               <Button type="primary" htmlType="submit">
+                 Save
+               </Button>
+               <Button onClick = {handleCancelClick}>Cancel</Button>
+             </div>
+            
+            </Form.Item>
+           </Form>
           
         </UserInfoStyled>
+
     )
 }
 export default UserEdit;

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import ListPost from './component/container/listPost/ListPost';
 import UserEdit from './component/container/userEdit/UserEdit';
 import PostAdd from './component/container/postAdd/PostAdd';
+import UploadImage from './component/container/userEdit/UploadImage';
 
 
 
@@ -29,6 +30,7 @@ function App() {
           <Route path="/userEdit" element = {<UserEdit/>}/>
           <Route path="/listPost" element = {<ListPost/>}/>
           <Route path="/postAdd" element = {<PostAdd/>}/>
+          <Route path="/uploadImage" element = {<UploadImage width='150'/>}/>
         </Routes>
       </BlogStyled>
     </div>

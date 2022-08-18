@@ -6,7 +6,8 @@ import { deletePost } from "../../../redux/slice/postsSlice";
 import { v4 as uuidv4 } from 'uuid';
 const PostStyled = styled.div`
     position: relative ;
-    border: 1px solid #888;
+    border: 1px solid #896e1e;
+    border-radius: 5px ;
     padding: 5px;
     margin: 10px 0px;
     span {

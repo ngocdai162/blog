@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { addPost } from "../../../redux/slice/postsSlice";
 import { hideEditButton } from "../../../redux/slice/editFlagSlice";
 import { v4 as uuidv4 } from 'uuid';
+import { Button, Checkbox, Form } from 'antd';
 const PostAddStyled = styled.div` 
     height: 70%;
     width: 100%;
@@ -15,8 +16,14 @@ const PostAddStyled = styled.div`
     p {
         font-size: 14px ;
         color: #fff;
+        color: #584316;
+
     }
-    textarea{
+    h3 {
+      color: #584316;
+      margin-bottom: 5px;
+    }
+    /* textarea{
         width: 100%;
         border-radius: 8px;
         outline: none ;
@@ -50,6 +57,42 @@ const PostAddStyled = styled.div`
         & button:first-child {
           margin-right: 10px;
         }
+    } */
+    .ant-form {
+      height: 80%;
+      label {
+        font-size: 14px ;
+        color: #584316;
+      }
+      textarea {
+        margin-top: 10px;
+        width: 100%;
+        outline: none ;
+        border: none;
+        border-radius: 10px;
+        padding: 5px;
+        font-size: 14px ;
+        color: #584316;
+        
+      }
+      .ant-form-item-explain-error {
+        font-size: 12px;
+        color: #b91010;
+      }
+      button {
+        background-color: #a97e25 ;
+        padding: 10px 20px;
+        font-size: 16px ;
+        border: none;
+        border-radius: 5px;
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+          &:hover {
+            background-color: #936c1a ;
+            cursor: pointer;
+        }
+      }
     }
     
 `
@@ -75,19 +118,70 @@ const PostAdd = () => {
       navigate('/listPost');
       }
     }
+    const onFinish = (values) => {
+      console.log('Success:', values);
+      handleAdd();
+    };
+  
+    const onFinishFailed = (errorInfo) => {
+      console.log('Failed:', errorInfo);
+    };
+  
     return (
-        <PostAddStyled>
-            <p>Title</p>
-            <TextArea rows={3} value = {titleValue} onChange = {handleChangeTitle}/>
-            <p>Content</p> 
-            <TextArea rows={8} value = {contentValue} onChange = {handleChangeContent}/>
-            <div>
-              <button onClick={handleAdd}>Add</button>
-              <Link to = '/listPost'>
-                 <button>Cancel</button>
-              </Link>
-            </div>
-        </PostAddStyled>
+    <PostAddStyled>
+      <h3>Create post</h3>
+      <Form
+      name="basic"
+      labelCol={{
+        span: 8,
+      }}
+      wrapperCol={{
+        span: 16,
+      }}
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+    >
+      <Form.Item
+        label="Title"
+        name="title"
+        rules={[
+          {
+            required: true,
+            message: 'Please input title!',
+          },
+        ]}
+      >
+          <TextArea rows={2} value = {titleValue} onChange = {handleChangeTitle}/>
+      </Form.Item>
+
+      <Form.Item
+        label="Content"
+        name="content"
+        rules={[
+          {
+            required: true,
+            message: 'Please input content!',
+          },
+        ]}
+      >
+         <TextArea rows={8} value = {contentValue} onChange = {handleChangeContent}/>
+      </Form.Item>
+      <Form.Item
+        wrapperCol={{
+          offset: 8,
+          span: 16,
+        }}
+      >
+        <Button type="primary" htmlType="submit">
+          Add
+        </Button>
+      </Form.Item>
+      </Form>
+    </PostAddStyled>
     )
 }
 export default PostAdd;

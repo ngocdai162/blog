@@ -4,14 +4,8 @@ const postsSlice =  createSlice({
     name: "posts",
     initialState:
     {
-        posts :  
-        [
-            { 
-               id:"0",
-               title: "Example",
-               content:"To only hide the vertical scrollbar, or only the horizontal scrollbar, use overflow-y or overflow-x:"
-            }
-        ]
+        posts :   [],
+        status: 'empty'
     }
      
     ,
